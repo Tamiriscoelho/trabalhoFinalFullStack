@@ -36,12 +36,19 @@ namespace ResenhaFilmesAPI.Context
             //setando uma chave primeiro
             modelBuilder.Entity<VisitanteModel>().HasKey(x => x.Id);
 
+            modelBuilder.Entity<VisitanteModel>()
+               .HasIndex(v => v.Email)
+               .IsUnique();
 
             //
             modelBuilder.Entity<AdministradorModel>().ToTable("Administradores");
 
             //setando uma chave primeiro
             modelBuilder.Entity<AdministradorModel>().HasKey(x => x.Id);
+
+            modelBuilder.Entity<AdministradorModel>()
+               .HasIndex(v => v.Email)
+               .IsUnique();
 
 
             //nome da tabela banco
