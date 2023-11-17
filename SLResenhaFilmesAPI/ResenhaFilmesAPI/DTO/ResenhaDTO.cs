@@ -2,7 +2,6 @@
 {
     public class ResenhaDTO
     {
-      
         public int Id { get; set; }
 
         public int Nota { get; set; }

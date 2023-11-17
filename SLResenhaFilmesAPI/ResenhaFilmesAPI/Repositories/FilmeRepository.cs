@@ -6,7 +6,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ResenhaFilmesAPI.Repositories
 {
-    public class FilmeRepository : IFilmeRepository
+    public class FilmeRepository : IFilmeService
     {
         private readonly AppDbContext _context;
 

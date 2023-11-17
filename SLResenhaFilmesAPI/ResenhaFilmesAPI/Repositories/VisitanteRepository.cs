@@ -5,7 +5,7 @@ using ResenhaFilmesAPI.Repositories.Contracts;
 
 namespace ResenhaFilmesAPI.Repositories
 {
-    public class VisitanteRepository : IVisitanteRepository
+    public class VisitanteRepository : IVisitanteService
     {
         private readonly AppDbContext _context;
 

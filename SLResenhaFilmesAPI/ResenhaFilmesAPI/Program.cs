@@ -1,7 +1,8 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ResenhaFilmesAPI.Context;
-
+using ResenhaFilmesAPI.Repositories;
+using ResenhaFilmesAPI.Repositories.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,15 @@ builder.Services.AddDbContextPool<AppDbContext>(options => options.UseMySql(mySq
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 #endregion
+
+#region servicos
+
+builder.Services.AddScoped<IAdmistradorRepository, AdministradorRepository>();
+builder.Services.AddScoped<IFilmeRepository, FilmeRepository>();
+builder.Services.AddScoped<IVisitanteRepository, VisitanteRepository>();
+builder.Services.AddScoped<IResenhaRepository, ResenhaRepository>();
+#endregion
+
 
 
 // Add services to the container.
