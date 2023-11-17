@@ -4,13 +4,14 @@ namespace ResenhaFilmesAPI.Models
 {
     public class FilmeModel
     {
-        private int Id { get; set; }
+        public int Id { get; set; }
 
-        private string Genero { get; set; } = string.Empty;
+        public string Titulo { get; set; } = string.Empty;
 
-        private string Ano { get; set; } = string.Empty;
+        public string Genero { get; set; } = string.Empty;
 
-        private List<ResenhaModel>? Resenhas { get; set; }
+        public string Ano { get; set; } = string.Empty;
 
+        public List<ResenhaModel>? Resenhas { get; set; }
     }
 }

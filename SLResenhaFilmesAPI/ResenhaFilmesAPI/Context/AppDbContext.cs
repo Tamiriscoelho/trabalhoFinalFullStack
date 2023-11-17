@@ -58,6 +58,12 @@ namespace ResenhaFilmesAPI.Context
             modelBuilder.Entity<ResenhaModel>().HasKey(x => x.Id);
 
 
+            modelBuilder.Entity<FilmeModel>().ToTable("Filmes");
+
+            //setando uma chave primeiro
+            modelBuilder.Entity<FilmeModel>().HasKey(x => x.Id);
+
+
 
         }
     }
