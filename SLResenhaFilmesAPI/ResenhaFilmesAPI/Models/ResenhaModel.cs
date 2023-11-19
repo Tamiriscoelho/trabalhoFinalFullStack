@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ResenhaFilmesAPI.Models
 {
@@ -9,6 +10,16 @@ namespace ResenhaFilmesAPI.Models
         public int Nota { get; set; }
 
         public string Comentario { get; set; } = string.Empty;
+
+        [JsonIgnore]
+        public virtual VisitanteModel Visitante { get; set; }
+
+        public int IdVisitante { get; set; }
+
+        [JsonIgnore]
+        public virtual FilmeModel Filme { get; set; }
+
+        public int IdFilme { get; set; }
 
     }
 }

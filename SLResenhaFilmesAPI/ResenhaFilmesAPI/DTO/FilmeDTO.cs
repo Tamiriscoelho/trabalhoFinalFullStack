@@ -6,10 +6,12 @@ namespace ResenhaFilmesAPI.DTO
     {
         public int Id { get; set; }
 
+        public string Titulo { get; set; } = string.Empty;
+
         public string Genero { get; set; } = string.Empty;
 
         public string Ano { get; set; } = string.Empty;
 
-        public List<ResenhaModel>? Resenhas { get; set; }
+        public virtual List<ResenhaModel>? Resenhas { get; set; }
     }
 }

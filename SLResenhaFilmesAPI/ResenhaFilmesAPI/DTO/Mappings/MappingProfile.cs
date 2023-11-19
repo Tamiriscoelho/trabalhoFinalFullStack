@@ -11,9 +11,9 @@ namespace ResenhaFilmesAPI.DTO.Mappings
 
             CreateMap<AdministradorModel, AdministradorLoginDTO>().ReverseMap();
 
-            CreateMap<VisitanteDTO, VisitanteDTO>().ReverseMap();
+            CreateMap<VisitanteModel, VisitanteDTO>().ReverseMap();
 
-            CreateMap<VisitanteDTO, VisitanteLoginDTO>().ReverseMap();
+            CreateMap<VisitanteModel, VisitanteLoginDTO>().ReverseMap();
 
             CreateMap<FilmeModel, FilmeDTO>().ReverseMap();
 

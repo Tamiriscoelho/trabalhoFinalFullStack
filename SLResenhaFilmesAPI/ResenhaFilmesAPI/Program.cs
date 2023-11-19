@@ -3,9 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using ResenhaFilmesAPI.Context;
 using ResenhaFilmesAPI.Repositories;
 using ResenhaFilmesAPI.Repositories.Contracts;
+using ResenhaFilmesAPI.Service.Contracts;
+using ResenhaFilmesAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 //Pegando a String de conexeção com o banco de Dados criada no appsettings.json
 string mySqlConnection = builder.Configuration.GetConnectionString("mysqlDbConexao");
@@ -27,13 +28,15 @@ builder.Services.AddScoped<IAdmistradorRepository, AdministradorRepository>();
 builder.Services.AddScoped<IFilmeRepository, FilmeRepository>();
 builder.Services.AddScoped<IVisitanteRepository, VisitanteRepository>();
 builder.Services.AddScoped<IResenhaRepository, ResenhaRepository>();
+builder.Services.AddScoped<IAdmistradorService, AdministradorService>();
+builder.Services.AddScoped<IResenhaService, ResenhaService>();
+builder.Services.AddScoped<IFilmeService, FilmeService>();
+builder.Services.AddScoped<IVisitanteService, VisitanteService>();
+
 #endregion
 
 
-
 // Add services to the container.
-
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -55,3 +58,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

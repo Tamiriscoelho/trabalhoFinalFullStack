@@ -2,11 +2,12 @@
 using ResenhaFilmesAPI.Context;
 using ResenhaFilmesAPI.Models;
 using ResenhaFilmesAPI.Repositories.Contracts;
+using System.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ResenhaFilmesAPI.Repositories
 {
-    public class FilmeRepository : IFilmeService
+    public class FilmeRepository : IFilmeRepository
     {
         private readonly AppDbContext _context;
 
@@ -66,8 +67,9 @@ namespace ResenhaFilmesAPI.Repositories
         public async Task<IEnumerable<FilmeModel>> GetByTitulo(string titulo)
         {
             var filmes = await _context.Filmes
-               .Where(f => f.Titulo.Contains(titulo, StringComparison.OrdinalIgnoreCase))
-               .ToListAsync();
+            .Where(f => f.Titulo.ToUpper().Contains(titulo.ToUpper()))
+            .ToListAsync();
+
             return filmes;
         }
 

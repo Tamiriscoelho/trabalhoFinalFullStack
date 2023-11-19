@@ -6,7 +6,7 @@ namespace ResenhaFilmesAPI.Service.Contracts
     public interface IVisitanteService
     {
    
-        Task Create(VisitanteDTO visitante);
+        Task<VisitanteDTO> Create(VisitanteDTO visitante);
 
         Task Update(VisitanteDTO visitante);
 

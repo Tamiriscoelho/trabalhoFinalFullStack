@@ -5,11 +5,13 @@ namespace ResenhaFilmesAPI.Service.Contracts
 {
     public interface IAdmistradorService
     {
-        Task Create(AdministradorDTO administrador);
+        Task<AdministradorDTO> Create(AdministradorDTO administrador);
 
         Task Update(AdministradorDTO administrador);
 
         Task Delete(int id);
+
+        Task<AdministradorDTO> GetById(int id);
 
         Task<AdministradorLoginDTO> GetByLoginSenha(string login, string senha);
 

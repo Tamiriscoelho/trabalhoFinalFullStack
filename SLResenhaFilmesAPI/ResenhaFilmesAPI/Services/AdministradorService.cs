@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ResenhaFilmesAPI.DTO;
 using ResenhaFilmesAPI.Models;
+using ResenhaFilmesAPI.Repositories;
 using ResenhaFilmesAPI.Repositories.Contracts;
 using ResenhaFilmesAPI.Service.Contracts;
 
@@ -19,12 +20,13 @@ namespace ResenhaFilmesAPI.Services
             _mapper = mapper;
         }
 
-        public async Task Create(AdministradorDTO dto)
+        public async Task<AdministradorDTO> Create(AdministradorDTO dto)
         {
-            var entity =  _mapper.Map<AdministradorModel>(dto);
-            await _administradorRepository.Create(entity);
-
-            dto.Id = entity.Id;
+            //recebe um dto  mapper converte objeto para uma model
+            // e passa o  para o repository
+            var entity = _mapper.Map<AdministradorModel>(dto);
+            var administrador = await _administradorRepository.Create(entity);
+            return _mapper.Map<AdministradorDTO>(administrador);   
         }
 
         public async Task Update(AdministradorDTO dto)
@@ -46,10 +48,10 @@ namespace ResenhaFilmesAPI.Services
             return _mapper.Map<IEnumerable<AdministradorDTO>>(entity);
         }
 
-        public async Task<AdministradorLoginDTO> GetById(int id)
+        public async Task<AdministradorDTO> GetById(int id)
         {
             var entity = await _administradorRepository.GetById(id);
-            return _mapper.Map<AdministradorLoginDTO>(entity);
+            return _mapper.Map<AdministradorDTO>(entity);
         }           
 
         public async Task<AdministradorDTO> GetByName(string nome)

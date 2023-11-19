@@ -20,12 +20,13 @@ namespace ResenhaFilmesAPI.Services
             _mapper = mapper;
         }
 
-        public async Task Create(VisitanteDTO dto)
+        public async Task<VisitanteDTO> Create(VisitanteDTO dto)
         {
+            //recebe um dto  mapper converte objeto para uma model
+            // e passa o  para o repository
             var entity = _mapper.Map<VisitanteModel>(dto);
-            await _visitanteRepository.Create(entity);
-
-            dto.Id = entity.Id;
+            var visitante = await _visitanteRepository.Create(entity);
+            return _mapper.Map<VisitanteDTO>(visitante);
         }
 
         public async Task Delete(int id)

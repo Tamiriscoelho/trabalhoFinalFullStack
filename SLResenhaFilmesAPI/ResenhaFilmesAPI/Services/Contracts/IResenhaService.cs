@@ -5,7 +5,7 @@ namespace ResenhaFilmesAPI.Service.Contracts
 {
     public interface IResenhaService
     {
-        Task Create(ResenhaDTO resenha);
+        Task<ResenhaDTO> Create(ResenhaDTO resenha);
 
         Task Update(ResenhaDTO resenha);
 

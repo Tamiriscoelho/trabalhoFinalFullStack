@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ResenhaFilmesAPI.Models;
+using System.IO;
 
 namespace ResenhaFilmesAPI.Context
 {
@@ -24,7 +25,6 @@ namespace ResenhaFilmesAPI.Context
 
         }
 
-
         //configurações de tabelas
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,39 +32,50 @@ namespace ResenhaFilmesAPI.Context
 
             //nome da tabela banco
             modelBuilder.Entity<VisitanteModel>().ToTable("Visitantes");
-
-            //setando uma chave primeiro
             modelBuilder.Entity<VisitanteModel>().HasKey(x => x.Id);
-
             modelBuilder.Entity<VisitanteModel>()
                .HasIndex(v => v.Email)
                .IsUnique();
+            modelBuilder.Entity<VisitanteModel>().Property(x => x.Nome).IsRequired();
+            modelBuilder.Entity<VisitanteModel>().Property(x => x.Email).IsRequired();
+            modelBuilder.Entity<VisitanteModel>().Property(x => x.Login).IsRequired();
+            modelBuilder.Entity<VisitanteModel>().Property(x => x.Senha).IsRequired();
 
-            //
+
             modelBuilder.Entity<AdministradorModel>().ToTable("Administradores");
-
-            //setando uma chave primeiro
             modelBuilder.Entity<AdministradorModel>().HasKey(x => x.Id);
-
             modelBuilder.Entity<AdministradorModel>()
                .HasIndex(v => v.Email)
                .IsUnique();
+            modelBuilder.Entity<AdministradorModel>().Property(x => x.Nome).IsRequired();
+            modelBuilder.Entity<AdministradorModel>().Property(x => x.Email).IsRequired();
+            modelBuilder.Entity<AdministradorModel>().Property(x => x.Login).IsRequired();
+            modelBuilder.Entity<AdministradorModel>().Property(x => x.Senha).IsRequired();
 
 
             //nome da tabela banco
-            modelBuilder.Entity<ResenhaModel>().ToTable("Resenhas");
+            modelBuilder.Entity<ResenhaModel>()
+                .ToTable("Resenhas")
+                .HasOne(r => r.Visitante)
+                .WithMany(v => v.Resenhas)
+                .HasForeignKey(r => r.IdVisitante)
+                .HasConstraintName("Fk_Visitante_Resenha");
 
-            //setando uma chave primeiro
+            modelBuilder.Entity<ResenhaModel>()
+              .ToTable("Resenhas")
+              .HasOne(r => r.Filme )
+              .WithMany(f => f.Resenhas)
+              .HasForeignKey(r => r.IdFilme)
+              .HasConstraintName("Fk_Filme_Resenha");
             modelBuilder.Entity<ResenhaModel>().HasKey(x => x.Id);
 
-
-            modelBuilder.Entity<FilmeModel>().ToTable("Filmes");
-
-            //setando uma chave primeiro
-            modelBuilder.Entity<FilmeModel>().HasKey(x => x.Id);
-
-
-
+            modelBuilder.Entity<FilmeModel>()
+                .ToTable("Filmes");
+            modelBuilder.Entity<FilmeModel>()
+                .HasKey(x => x.Id);
+            modelBuilder.Entity<FilmeModel>().Property(x => x.Titulo).IsRequired();
+            modelBuilder.Entity<FilmeModel>().Property(x => x.Genero).IsRequired();
+            modelBuilder.Entity<FilmeModel>().Property(x => x.Ano).IsRequired();
         }
     }
 }

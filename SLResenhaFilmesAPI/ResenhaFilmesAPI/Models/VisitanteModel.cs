@@ -2,6 +2,6 @@
 {
     public class VisitanteModel : UsuarioModel
     {
-        public List<FilmeModel>? Filmes{ get; set; }
+        public virtual List<ResenhaModel>? Resenhas{ get; set; }
     }
 }

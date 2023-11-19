@@ -11,7 +11,9 @@ namespace ResenhaFilmesAPI.Services
     public class FilmeService : IFilmeService
     {
 
+        //comunicando  com repositorio
         private readonly IFilmeRepository _filmeRepository;
+        //entra DTO e converte  para model e manda para o repository
         private readonly IMapper _mapper;
 
 
@@ -21,12 +23,14 @@ namespace ResenhaFilmesAPI.Services
             _mapper = mapper;
         }
 
-        public async Task Create(FilmeDTO dto)
+        public async Task<FilmeDTO> Create(FilmeDTO dto)
         {
+            //recebe um dto  mapper converte objeto para uma model
+            // e passa o  para o repository
             var entity = _mapper.Map<FilmeModel>(dto);
-           await _filmeRepository.Create(entity);
+            var filme = await _filmeRepository.Create(entity);
+            return _mapper.Map<FilmeDTO>(filme);
 
-            dto.Id = entity.Id;
         }
 
         public async Task Delete(int id)
@@ -61,7 +65,7 @@ namespace ResenhaFilmesAPI.Services
 
         public async Task<IEnumerable<FilmeDTO>> GetByTitulo(string titulo)
         {
-            var entity = await _filmeRepository.GetByGenero(titulo);
+            var entity = await _filmeRepository.GetByTitulo(titulo);
             return _mapper.Map<IEnumerable<FilmeDTO>>(entity);
         }
 

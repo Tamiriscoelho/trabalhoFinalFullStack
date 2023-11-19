@@ -19,12 +19,13 @@ namespace ResenhaFilmesAPI.Services
             _mapper = mapper;
         }
 
-        public async Task Create(ResenhaDTO dto)
+        public async Task<ResenhaDTO> Create(ResenhaDTO dto)
         {
+            //recebe um dto  mapper converte objeto para uma model
+            // e passa o  para o repository
             var entity = _mapper.Map<ResenhaModel>(dto);
-            await _resenhaRepository.Create(entity);
-
-            dto.Id = entity.Id;
+            var resenha = await _resenhaRepository.Create(entity);
+            return _mapper.Map<ResenhaDTO>(resenha);
         }
 
         public async Task Delete(int id)

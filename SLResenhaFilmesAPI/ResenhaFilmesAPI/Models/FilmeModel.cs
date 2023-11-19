@@ -12,6 +12,6 @@ namespace ResenhaFilmesAPI.Models
 
         public string Ano { get; set; } = string.Empty;
 
-        public List<ResenhaModel>? Resenhas { get; set; }
+        public virtual List<ResenhaModel>? Resenhas { get; set; }
     }
 }

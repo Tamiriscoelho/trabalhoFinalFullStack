@@ -6,7 +6,7 @@ namespace ResenhaFilmesAPI.Service.Contracts
 {
     public interface IFilmeService
     {
-        Task Create(FilmeDTO filme);
+        Task<FilmeDTO> Create(FilmeDTO filme);
 
         Task Update(FilmeDTO filme);
 
