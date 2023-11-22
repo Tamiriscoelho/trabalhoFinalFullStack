@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResenhaFilmesAPI.DTO;
 using ResenhaFilmesAPI.Service.Contracts;
@@ -7,6 +8,7 @@ namespace ResenhaFilmesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "admin")]
     public class FilmeController : ControllerBase
     {
         private readonly IFilmeService _filmeService;
@@ -22,7 +24,7 @@ namespace ResenhaFilmesAPI.Controllers
             var dtos = await _filmeService.GetAll();
 
             if (dtos is null)
-                return NotFound("Visitante not found");
+                return NotFound(" Filme not found");
 
             return Ok(dtos);
         }
@@ -90,7 +92,7 @@ namespace ResenhaFilmesAPI.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromBody] FilmeDTO dto)
         {
-            if (id != dto.Id)
+            if (id != dto.IdFilme)
                 return BadRequest();
 
             if (dto is null)

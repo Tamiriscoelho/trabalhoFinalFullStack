@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ResenhaFilmesAPI.DTO
 {
-    public class VisitanteDTO
+    public class UsuarioDTO
     {
         
-        public int Id { get; set; }
+        public int IdUsuario { get; set; }
 
        
         public string Nome { get; set; } = string.Empty;
@@ -19,6 +19,8 @@ namespace ResenhaFilmesAPI.DTO
 
        
         public string Senha { get; set; } = string.Empty;
+
+        public string? Roles{ get; set; } = string.Empty;
 
         public List<ResenhaModel>? Resenhas { get; set; }
     }

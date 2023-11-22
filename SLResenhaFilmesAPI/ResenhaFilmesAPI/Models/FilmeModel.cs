@@ -1,10 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ResenhaFilmesAPI.Models
+﻿namespace ResenhaFilmesAPI.Models
 {
     public class FilmeModel
     {
-        public int Id { get; set; }
+        public int IdFilme { get; set; }
 
         public string Titulo { get; set; } = string.Empty;
 

@@ -11,10 +11,7 @@ namespace ResenhaFilmesAPI.DTO
 
         public string Comentario { get; set; } = string.Empty;
 
-       
-        //public virtual VisitanteModel Visitante { get; set; }
-
-        public int IdVisitante { get; set; }
+        public int IdUsuario { get; set; }
 
         public int IdFilme { get; set; }
     }

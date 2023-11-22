@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResenhaFilmesAPI.DTO;
 using ResenhaFilmesAPI.Service.Contracts;
@@ -8,6 +9,7 @@ namespace ResenhaFilmesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "comun")]
     public class ResenhaController : ControllerBase
     {
         private readonly IResenhaService _resenhaService;

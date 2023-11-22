@@ -11,10 +11,7 @@ namespace ResenhaFilmesAPI.Context
     {
 
         // representa as tabelas  das classes criadas na Models
-
-        public DbSet<AdministradorModel> Administradores { get; set; }
-
-        public DbSet<VisitanteModel> Visitantes { get; set; }
+        public DbSet<UsuarioModel> Usuarios { get; set; }
 
         public DbSet<FilmeModel> Filmes { get; set; }
 
@@ -30,52 +27,37 @@ namespace ResenhaFilmesAPI.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            //nome da tabela banco
-            modelBuilder.Entity<VisitanteModel>().ToTable("Visitantes");
-            modelBuilder.Entity<VisitanteModel>().HasKey(x => x.Id);
-            modelBuilder.Entity<VisitanteModel>()
-               .HasIndex(v => v.Email)
-               .IsUnique();
-            modelBuilder.Entity<VisitanteModel>().Property(x => x.Nome).IsRequired();
-            modelBuilder.Entity<VisitanteModel>().Property(x => x.Email).IsRequired();
-            modelBuilder.Entity<VisitanteModel>().Property(x => x.Login).IsRequired();
-            modelBuilder.Entity<VisitanteModel>().Property(x => x.Senha).IsRequired();
+            modelBuilder.Entity<UsuarioModel>().ToTable("Usuarios");
+            modelBuilder.Entity<UsuarioModel>().HasKey(x => x.IdUsuario);
+            modelBuilder.Entity<UsuarioModel>()
+                .HasIndex(v => v.Email)
+                .IsUnique();
+            modelBuilder.Entity<UsuarioModel>().Property(x => x.Nome).IsRequired();
+            modelBuilder.Entity<UsuarioModel>().Property(x => x.Email).IsRequired();
+            modelBuilder.Entity<UsuarioModel>().Property(x => x.Login).IsRequired();
+            modelBuilder.Entity<UsuarioModel>().Property(x => x.Senha).IsRequired();
 
-
-            modelBuilder.Entity<AdministradorModel>().ToTable("Administradores");
-            modelBuilder.Entity<AdministradorModel>().HasKey(x => x.Id);
-            modelBuilder.Entity<AdministradorModel>()
-               .HasIndex(v => v.Email)
-               .IsUnique();
-            modelBuilder.Entity<AdministradorModel>().Property(x => x.Nome).IsRequired();
-            modelBuilder.Entity<AdministradorModel>().Property(x => x.Email).IsRequired();
-            modelBuilder.Entity<AdministradorModel>().Property(x => x.Login).IsRequired();
-            modelBuilder.Entity<AdministradorModel>().Property(x => x.Senha).IsRequired();
-
-
-            //nome da tabela banco
-            modelBuilder.Entity<ResenhaModel>()
-                .ToTable("Resenhas")
-                .HasOne(r => r.Visitante)
-                .WithMany(v => v.Resenhas)
-                .HasForeignKey(r => r.IdVisitante)
-                .HasConstraintName("Fk_Visitante_Resenha");
-
-            modelBuilder.Entity<ResenhaModel>()
-              .ToTable("Resenhas")
-              .HasOne(r => r.Filme )
-              .WithMany(f => f.Resenhas)
-              .HasForeignKey(r => r.IdFilme)
-              .HasConstraintName("Fk_Filme_Resenha");
+            // Configurações para a entidade ResenhaModel
+            modelBuilder.Entity<ResenhaModel>().ToTable("Resenhas");
             modelBuilder.Entity<ResenhaModel>().HasKey(x => x.Id);
+            modelBuilder.Entity<ResenhaModel>()
+                .HasOne(r => r.Usuario)
+                .WithMany(u => u.Resenhas)
+                .HasForeignKey(r => r.IdUsuario)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<FilmeModel>()
-                .ToTable("Filmes");
-            modelBuilder.Entity<FilmeModel>()
-                .HasKey(x => x.Id);
-            modelBuilder.Entity<FilmeModel>().Property(x => x.Titulo).IsRequired();
-            modelBuilder.Entity<FilmeModel>().Property(x => x.Genero).IsRequired();
-            modelBuilder.Entity<FilmeModel>().Property(x => x.Ano).IsRequired();
+            modelBuilder.Entity<ResenhaModel>()
+                .HasOne(r => r.Filme)
+                .WithMany(f => f.Resenhas)
+                .HasForeignKey(r => r.IdFilme)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configurações para a entidade FilmeModel
+            modelBuilder.Entity<FilmeModel>().ToTable("Filmes");
+            modelBuilder.Entity<FilmeModel>().HasKey(x => x.IdFilme);
+            modelBuilder.Entity<FilmeModel>().Property(x => x.Titulo);
+            modelBuilder.Entity<FilmeModel>().Property(x => x.Genero);
+            modelBuilder.Entity<FilmeModel>().Property(x => x.Ano);
         }
     }
 }

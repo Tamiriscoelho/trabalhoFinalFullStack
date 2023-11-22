@@ -47,7 +47,7 @@ namespace ResenhaFilmesAPI.Repositories
 
         public async Task<FilmeModel> GetById(int id)
         {
-            return await _context.Filmes.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return await _context.Filmes.Where(x => x.IdFilme == id).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<FilmeModel>> GetByAno(string ano)

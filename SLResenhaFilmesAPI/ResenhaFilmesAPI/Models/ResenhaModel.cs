@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.IO;
 using System.Text.Json.Serialization;
 
 namespace ResenhaFilmesAPI.Models
@@ -12,14 +12,13 @@ namespace ResenhaFilmesAPI.Models
         public string Comentario { get; set; } = string.Empty;
 
         [JsonIgnore]
-        public virtual VisitanteModel Visitante { get; set; }
+        public virtual UsuarioModel? Usuario { get; set; }
 
-        public int IdVisitante { get; set; }
+        public int IdUsuario { get; set; }
 
         [JsonIgnore]
         public virtual FilmeModel Filme { get; set; }
 
         public int IdFilme { get; set; }
-
     }
 }

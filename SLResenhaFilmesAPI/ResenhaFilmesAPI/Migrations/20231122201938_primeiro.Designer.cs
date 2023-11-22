@@ -10,8 +10,8 @@ using ResenhaFilmesAPI.Context;
 namespace ResenhaFilmesAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231119014529_inicial")]
-    partial class inicial
+    [Migration("20231122201938_primeiro")]
+    partial class primeiro
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,39 +21,9 @@ namespace ResenhaFilmesAPI.Migrations
                 .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("ResenhaFilmesAPI.Models.AdministradorModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Senha")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Administradores", (string)null);
-                });
-
             modelBuilder.Entity("ResenhaFilmesAPI.Models.FilmeModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("IdFilme")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -69,7 +39,7 @@ namespace ResenhaFilmesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdFilme");
 
                     b.ToTable("Filmes", (string)null);
                 });
@@ -87,7 +57,7 @@ namespace ResenhaFilmesAPI.Migrations
                     b.Property<int>("IdFilme")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdVisitante")
+                    b.Property<int>("IdUsuario")
                         .HasColumnType("int");
 
                     b.Property<int>("Nota")
@@ -97,14 +67,14 @@ namespace ResenhaFilmesAPI.Migrations
 
                     b.HasIndex("IdFilme");
 
-                    b.HasIndex("IdVisitante");
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("Resenhas", (string)null);
                 });
 
-            modelBuilder.Entity("ResenhaFilmesAPI.Models.VisitanteModel", b =>
+            modelBuilder.Entity("ResenhaFilmesAPI.Models.UsuarioModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("IdUsuario")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -120,16 +90,20 @@ namespace ResenhaFilmesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Roles")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Senha")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdUsuario");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Visitantes", (string)null);
+                    b.ToTable("Usuarios", (string)null);
                 });
 
             modelBuilder.Entity("ResenhaFilmesAPI.Models.ResenhaModel", b =>
@@ -138,19 +112,17 @@ namespace ResenhaFilmesAPI.Migrations
                         .WithMany("Resenhas")
                         .HasForeignKey("IdFilme")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("Fk_Filme_Resenha");
+                        .IsRequired();
 
-                    b.HasOne("ResenhaFilmesAPI.Models.VisitanteModel", "Visitante")
+                    b.HasOne("ResenhaFilmesAPI.Models.UsuarioModel", "Usuario")
                         .WithMany("Resenhas")
-                        .HasForeignKey("IdVisitante")
+                        .HasForeignKey("IdUsuario")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("Fk_Visitante_Resenha");
+                        .IsRequired();
 
                     b.Navigation("Filme");
 
-                    b.Navigation("Visitante");
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("ResenhaFilmesAPI.Models.FilmeModel", b =>
@@ -158,7 +130,7 @@ namespace ResenhaFilmesAPI.Migrations
                     b.Navigation("Resenhas");
                 });
 
-            modelBuilder.Entity("ResenhaFilmesAPI.Models.VisitanteModel", b =>
+            modelBuilder.Entity("ResenhaFilmesAPI.Models.UsuarioModel", b =>
                 {
                     b.Navigation("Resenhas");
                 });

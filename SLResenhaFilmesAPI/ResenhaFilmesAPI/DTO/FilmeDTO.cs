@@ -4,7 +4,7 @@ namespace ResenhaFilmesAPI.DTO
 {
     public class FilmeDTO
     {
-        public int Id { get; set; }
+        public int IdFilme { get; set; }
 
         public string Titulo { get; set; } = string.Empty;
 
