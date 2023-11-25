@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ResenhaFilmesAPI.Models;
 using System.IO;
+using System.Net.Mail;
 
 namespace ResenhaFilmesAPI.Context
 {
-    //Herdar da classe DbContext EntityFramework
-    //App representa o banco
+    //classe resposavel por fazer a ponte entre as entidades criadas na models
+    // com o banco de dados MySql para isso ela tem que herdar da classe DbContext pois e dela que vem os recurso para fazer esse mapeamento
     public class AppDbContext : DbContext
 
     {
@@ -17,23 +18,25 @@ namespace ResenhaFilmesAPI.Context
 
         public DbSet<ResenhaModel> Resenhas { get; set; }
 
+        //Definindo um contrutor com a opção DbContextOptions passando para classe base que options
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
         }
 
-        //configurações de tabelas
+        //Definindo os mapeamentos que as entidades criadas na Pasta models
+        //Filme, Resenha, Usuário tem que ser meapeada para uma tabela com o nome que vamos definir.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<UsuarioModel>().ToTable("Usuarios");
-            modelBuilder.Entity<UsuarioModel>().HasKey(x => x.IdUsuario);
+            modelBuilder.Entity<UsuarioModel>().HasKey(x => x.UsuarioModelId);
             modelBuilder.Entity<UsuarioModel>()
                 .HasIndex(v => v.Email)
                 .IsUnique();
-            modelBuilder.Entity<UsuarioModel>().Property(x => x.Nome).IsRequired();
-            modelBuilder.Entity<UsuarioModel>().Property(x => x.Email).IsRequired();
+            modelBuilder.Entity<UsuarioModel>().Property(x => x.Nome).IsRequired().HasMaxLength(80);
+            modelBuilder.Entity<UsuarioModel>().Property(x => x.Email).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<UsuarioModel>().Property(x => x.Login).IsRequired();
             modelBuilder.Entity<UsuarioModel>().Property(x => x.Senha).IsRequired();
 
@@ -43,7 +46,7 @@ namespace ResenhaFilmesAPI.Context
             modelBuilder.Entity<ResenhaModel>()
                 .HasOne(r => r.Usuario)
                 .WithMany(u => u.Resenhas)
-                .HasForeignKey(r => r.IdUsuario)
+                .HasForeignKey(r => r.UsuarioModelId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ResenhaModel>()
@@ -54,7 +57,7 @@ namespace ResenhaFilmesAPI.Context
 
             // Configurações para a entidade FilmeModel
             modelBuilder.Entity<FilmeModel>().ToTable("Filmes");
-            modelBuilder.Entity<FilmeModel>().HasKey(x => x.IdFilme);
+            modelBuilder.Entity<FilmeModel>().HasKey(x => x.FilmeModelId);
             modelBuilder.Entity<FilmeModel>().Property(x => x.Titulo);
             modelBuilder.Entity<FilmeModel>().Property(x => x.Genero);
             modelBuilder.Entity<FilmeModel>().Property(x => x.Ano);

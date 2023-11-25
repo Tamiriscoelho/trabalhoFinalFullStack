@@ -6,12 +6,15 @@ using ResenhaFilmesAPI.Repositories.Contracts;
 using ResenhaFilmesAPI.Service.Contracts;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
+//Serviços nos permitem acessar o dados das tabelas no banco Mysql
+//implementamos uma interface IFilmeService
 namespace ResenhaFilmesAPI.Services
 {
     public class FilmeService : IFilmeService
     {
+        //injeção de dependecia
 
-        //comunicando  com repositorio
+        //comunicando  com repositorio que se comunica com o Context
         private readonly IFilmeRepository _filmeRepository;
         //entra DTO e converte  para model e manda para o repository
         private readonly IMapper _mapper;

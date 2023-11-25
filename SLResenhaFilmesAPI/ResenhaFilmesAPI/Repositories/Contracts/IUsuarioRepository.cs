@@ -15,7 +15,7 @@ namespace ResenhaFilmesAPI.Repositories.Contracts
 
         Task<UsuarioModel> GetByLoginSenha(string login, string senha);
 
-        Task<UsuarioModel> GetByName(string nome);
+        Task<IEnumerable<UsuarioModel>> GetByName(string nome);
 
         Task<IEnumerable<UsuarioModel>> GetAll();
     }

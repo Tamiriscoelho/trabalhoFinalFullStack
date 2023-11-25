@@ -20,7 +20,7 @@ namespace ResenhaFilmesAPI.Service.Contracts
 
         Task <UsuarioLoginDTO> GetByLoginSenha(string login, string senha);
 
-        Task <UsuarioDTO> GetByName(string nome);
+       Task<IEnumerable<UsuarioDTO>>GetByName(string nome);
 
         Task<IEnumerable<UsuarioDTO>> GetAll();
     }

@@ -6,7 +6,6 @@ namespace ResenhaFilmesAPI.DTO
     {
         public string Login { get; set; } = string.Empty;
         public string Senha { get; set; } = string.Empty;
-
         public string Roles { get; set; } = string.Empty;
     }
 }

@@ -21,7 +21,7 @@ namespace ResenhaFilmesAPI.Controllers
         }
        
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UsuarioDTO>>> Get()
+        public async Task<ActionResult<IEnumerable<UsuarioDTO>>> GetAll()
         {
             var dtos = await _usuarioService.GetAll();
 
@@ -44,7 +44,7 @@ namespace ResenhaFilmesAPI.Controllers
         }
 
 
-        [HttpGet("nome")]
+        [HttpGet("UsuariosPorNome")]
         public async Task<ActionResult<UsuarioDTO>> GetByName(string nome)
         {
             var dto = await _usuarioService.GetByName(nome);
@@ -70,7 +70,7 @@ namespace ResenhaFilmesAPI.Controllers
         }
 
 
-        [HttpPost ("cadastro/userComum")]
+        [HttpPost ("CadastroUserComum")]
         public async Task<ActionResult> CriarUsuarioComum([FromBody] UsuarioDTO dto)
         {
             var usuario = await _usuarioService.CreateUserComum(dto);
@@ -83,7 +83,7 @@ namespace ResenhaFilmesAPI.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPost("cadastro/userAdmin")]
+        [HttpPost("CadastroUserAdmin")]
         public async Task<ActionResult> CriarUsuarioAdmin([FromBody] UsuarioDTO dto)
         {
             var usuario = await _usuarioService.CreateUserAdmin(dto);
@@ -99,7 +99,7 @@ namespace ResenhaFilmesAPI.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromBody] UsuarioDTO dto)
         {
-            if (id != dto.IdUsuario)
+            if (id != dto.UsuarioModelId)
                 return BadRequest();
 
             if (dto is null)

@@ -14,8 +14,6 @@ namespace ResenhaFilmesAPI.Services
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
-
-
         public TokenService(IUsuarioRepository usuarioRepository, IMapper mapper)
         {
             _usuarioRepository = usuarioRepository;

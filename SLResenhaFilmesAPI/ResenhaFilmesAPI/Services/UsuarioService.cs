@@ -67,10 +67,10 @@ namespace ResenhaFilmesAPI.Services
 
         }
 
-        public async Task<UsuarioDTO> GetByName(string nome)
+        public async Task<IEnumerable<UsuarioDTO>> GetByName(string nome)
         {
             var entity = await _usuarioRepository.GetByName(nome);
-            return _mapper.Map<UsuarioDTO>(entity);
+            return (IEnumerable<UsuarioDTO>)_mapper.Map<UsuarioDTO>(entity);
 
         }
         public async Task Update(UsuarioDTO dto)

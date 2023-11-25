@@ -17,15 +17,15 @@ namespace ResenhaFilmesAPI.Repositories
 
         public async Task<UsuarioModel> Create(UsuarioModel usuario)
         {
-            _context.Usuarios.Add(usuario);
-            await _context.SaveChangesAsync();
+            _context.Usuarios.Add(usuario);//crio no context
+            await _context.SaveChangesAsync();// perssito no banco
             
             return usuario;
         }
 
         public async Task<UsuarioModel> Update(UsuarioModel usuario)
         {
-            var existiUsuario = await _context.Usuarios.FindAsync(usuario.IdUsuario);
+            var existiUsuario = await _context.Usuarios.FindAsync(usuario.UsuarioModelId);
             if (existiUsuario == null)
                 return null;
 
@@ -55,14 +55,15 @@ namespace ResenhaFilmesAPI.Repositories
 
         public async Task<UsuarioModel> GetById(int id)
         {
-            var result = await _context.Usuarios.FindAsync(id);
-            if (result == null)
+            //faz uma busca na memoria FindAsync
+            var usuarioModel = await _context.Usuarios.FindAsync(id);
+            if (usuarioModel == null)
             {
                 // Tratar o caso em que não há correspondência
                 // Exemplo: lançar uma exceção ou retornar um valor padrão
-                throw new InvalidOperationException("Visitante não encontrado");
+                throw new InvalidOperationException("Usuário não encontrado");
             }
-            return result;
+            return usuarioModel;
         }
 
         public async Task<UsuarioModel> GetByLoginSenha(string login, string senha)
@@ -71,17 +72,20 @@ namespace ResenhaFilmesAPI.Repositories
             .SingleOrDefaultAsync(v => v.Login.ToUpper() == login.ToUpper() && v.Senha.ToUpper() == senha.ToUpper());
         }
 
-        public async Task<UsuarioModel> GetByName(string nome)
+        public async Task<IEnumerable<UsuarioModel>> GetByName(string nome)
         {
-            var usuario = await _context.Usuarios
-         .FirstOrDefaultAsync(v => v.Nome == nome);
+            IEnumerable<UsuarioModel> usuarioModels;
 
-            if (usuario == null)
+            if (!string.IsNullOrWhiteSpace(nome))
             {
-                throw new InvalidOperationException($"Visitante com o nome {nome} não encontrado");
+                usuarioModels = await _context.Usuarios.Where(n => n.Nome.Contains(nome)).ToListAsync();
+            }
+            else
+            {
+                usuarioModels = await GetAll();
             }
 
-            return usuario;
+            return usuarioModels;
         }
 
         public async Task<IEnumerable<UsuarioModel>> GetAll()

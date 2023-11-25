@@ -14,7 +14,7 @@ namespace ResenhaFilmesAPI.Models
         [JsonIgnore]
         public virtual UsuarioModel? Usuario { get; set; }
 
-        public int IdUsuario { get; set; }
+        public int UsuarioModelId { get; set; }
 
         [JsonIgnore]
         public virtual FilmeModel Filme { get; set; }

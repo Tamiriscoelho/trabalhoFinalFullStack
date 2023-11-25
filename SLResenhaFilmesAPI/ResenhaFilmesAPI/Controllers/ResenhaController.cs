@@ -31,7 +31,7 @@ namespace ResenhaFilmesAPI.Controllers
         }
 
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetResenha")]
         public async Task<ActionResult<ResenhaDTO>> GetById(int id)
         {
             var dto = await _resenhaService.GetById(id);
@@ -42,8 +42,7 @@ namespace ResenhaFilmesAPI.Controllers
             return Ok(dto);
         }
 
-
-        [HttpGet("nota")]
+        [HttpGet("ResenhasPorNota")]
         public async Task<ActionResult<IEnumerable<ResenhaDTO>>> GetByNota(int nota)
         {
             var dto = await _resenhaService.GetByNota(nota);
@@ -87,7 +86,7 @@ namespace ResenhaFilmesAPI.Controllers
             var dto = await _resenhaService.GetById(id);
             if (dto == null)
             {
-                return NotFound("Visitante not found");
+                return NotFound("Resenha not found");
             }
 
             await _resenhaService.Delete(id);

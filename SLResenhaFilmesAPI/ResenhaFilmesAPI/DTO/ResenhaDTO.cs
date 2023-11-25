@@ -11,7 +11,7 @@ namespace ResenhaFilmesAPI.DTO
 
         public string Comentario { get; set; } = string.Empty;
 
-        public int IdUsuario { get; set; }
+        public int UsuarioModelId { get; set; }
 
         public int IdFilme { get; set; }
     }

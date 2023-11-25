@@ -2,7 +2,7 @@
 {
     public class FilmeModel
     {
-        public int IdFilme { get; set; }
+        public int FilmeModelId { get; set; }
 
         public string Titulo { get; set; } = string.Empty;
 

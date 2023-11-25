@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using ResenhaFilmesAPI.DTO;
 using ResenhaFilmesAPI.Service.Contracts;
 
+//controllador que expõe os endpoints da nossa api expondo os serviços da api
+//usando os verbos http get post put e delete
 namespace ResenhaFilmesAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -13,65 +15,68 @@ namespace ResenhaFilmesAPI.Controllers
     {
         private readonly IFilmeService _filmeService;
 
+        //construtor e já injetou o serviço que acessa o repository que acessa o context 
+        // para que possamos persistir e acessar o banco de dados
         public FilmeController(IFilmeService filmeService)
         {
             _filmeService = filmeService;
         }
 
+        //Task mostra que essa é uma operação assincrona o ActionResult permite que se o retorne o tipo do response ou qualquer outro resultado da Action. Podendo retornar um tipo especifico ou um tipo derivado
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FilmeDTO>>> GetAll()
+        public async Task<ActionResult<IAsyncEnumerable<FilmeDTO>>> GetAll()
         {
             var dtos = await _filmeService.GetAll();
 
             if (dtos is null)
-                return NotFound(" Filme not found");
+                return StatusCode(StatusCodes.Status500InternalServerError,"Erro ao obter Filmes");
 
             return Ok(dtos);
         }
 
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetFilme")]// passando o id por paramentro
         public async Task<ActionResult<FilmeDTO>> GetById(int id)
         {
             var dto = await _filmeService.GetById(id);
             if (dto == null)
             {
-                return NotFound("id not found");
+                return NotFound($"Não existe Filme com id={id}");
             }
             return Ok(dto);
         }
 
 
-        [HttpGet("titulo")]
-        public async Task<ActionResult<IEnumerable<FilmeDTO>>> GetByTitulo(string titulo)
+        [HttpGet("FilmesPorTitulo")]
+        public async Task<ActionResult<IAsyncEnumerable<FilmeDTO>>> GetByTitulo(string titulo)
         {
             var dto = await _filmeService.GetByTitulo(titulo);
+
             if (dto == null)
-            {
-                return NotFound("id not found");
-            }
+                return NotFound($"Não existem titulos com critério {titulo}");
+
             return Ok(dto);
         }
 
-        [HttpGet("genero")]
-        public async Task<ActionResult<IEnumerable<FilmeDTO>>> GetByGenero(string genero)
+        [HttpGet("FilmesPorGenero")]
+        public async Task<ActionResult<IAsyncEnumerable<FilmeDTO>>> GetByGenero(string genero)
         {
             var dto = await _filmeService.GetByGenero(genero);
             if (dto == null)
             {
-                return NotFound("id not found");
+                return NotFound($"Não extitem alunos com critério {genero}");
             }
             return Ok(dto);
         }
 
 
-        [HttpGet("ano")]
-        public async Task<ActionResult<IEnumerable<FilmeDTO>>> GetByAno(string ano)
+        [HttpGet("FilmesPorAno")]
+        public async Task<ActionResult<IAsyncEnumerable<FilmeDTO>>> GetByAno(string ano)
         {
             var dto = await _filmeService.GetByAno(ano);
             if (dto == null)
             {
-                return NotFound("id not found");
+                return NotFound("Ano not found");
             }
             return Ok(dto);
         }
@@ -83,7 +88,7 @@ namespace ResenhaFilmesAPI.Controllers
 
             if (filme == null)
             {
-                return BadRequest();
+                return BadRequest("Request inválido");
             }
             return Ok(filme);
             
@@ -92,7 +97,7 @@ namespace ResenhaFilmesAPI.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromBody] FilmeDTO dto)
         {
-            if (id != dto.IdFilme)
+            if (id != dto.FilmeModelId)
                 return BadRequest();
 
             if (dto is null)

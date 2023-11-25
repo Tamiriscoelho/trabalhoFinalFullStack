@@ -6,12 +6,12 @@ namespace ResenhaFilmesAPI.DTO
     public class UsuarioDTO
     {
         
-        public int IdUsuario { get; set; }
+        public int UsuarioModelId { get; set; }
 
        
         public string Nome { get; set; } = string.Empty;
 
-       
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
        

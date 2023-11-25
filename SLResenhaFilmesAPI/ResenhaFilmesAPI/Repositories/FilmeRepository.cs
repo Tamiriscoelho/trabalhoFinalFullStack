@@ -47,30 +47,55 @@ namespace ResenhaFilmesAPI.Repositories
 
         public async Task<FilmeModel> GetById(int id)
         {
-            return await _context.Filmes.Where(x => x.IdFilme == id).FirstOrDefaultAsync();
+            return await _context.Filmes.Where(x => x.FilmeModelId == id).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<FilmeModel>> GetByAno(string ano)
         {
-            var filmes = await _context.Filmes.Where(v => v.Ano == ano).ToListAsync();
+            IEnumerable<FilmeModel> filmeModels;
 
-            return filmes;
+            if (!string.IsNullOrWhiteSpace(ano))
+            {
+                filmeModels = await _context.Filmes.Where(n => n.Ano.Contains(ano)).ToListAsync();
+            }
+            else
+            {
+                filmeModels = await GetAll();
+            }
+
+            return filmeModels;
         }
 
         public async Task<IEnumerable<FilmeModel>> GetByGenero(string genero)
         {
-            var filmes = await _context.Filmes.Where(v => v.Genero == genero).ToListAsync();
+            IEnumerable<FilmeModel> filmeModels;
 
-            return filmes;
+            if (!string.IsNullOrWhiteSpace(genero))
+            {
+                filmeModels = await _context.Filmes.Where(n => n.Genero.Contains(genero)).ToListAsync();
+            }
+            else
+            {
+                filmeModels = await GetAll();
+            }
+
+            return filmeModels;
         }
 
         public async Task<IEnumerable<FilmeModel>> GetByTitulo(string titulo)
         {
-            var filmes = await _context.Filmes
-            .Where(f => f.Titulo.ToUpper().Contains(titulo.ToUpper()))
-            .ToListAsync();
+            IEnumerable<FilmeModel> filmeModels;
 
-            return filmes;
+            if (!string.IsNullOrWhiteSpace(titulo))
+            {
+                filmeModels = await _context.Filmes.Where(n => n.Titulo.Contains(titulo)).ToListAsync();
+            }
+            else
+            {
+                filmeModels = await GetAll();
+            }
+
+            return filmeModels;
         }
 
         public async Task<IEnumerable<FilmeModel>> GetAll()

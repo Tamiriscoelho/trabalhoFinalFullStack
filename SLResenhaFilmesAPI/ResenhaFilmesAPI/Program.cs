@@ -17,6 +17,8 @@ using static System.Net.Mime.MediaTypeNames;
 var builder = WebApplication.CreateBuilder(args);
 
 
+
+
 var key  = Encoding.ASCII.GetBytes(ResenhaFilmesAPI.Settings.Secret);
 
 builder.Services.AddAuthentication(x =>
@@ -44,19 +46,18 @@ builder.Services.AddAuthentication(x =>
 
 });
 
-
-//Pegando a String de conexeção com o banco de Dados criada no appsettings.json
+//Registrando o Context e definindo o provedor de banco de dados que esta sendo usado no caso o MySql e a string de conexão com o banco de dados
 string mySqlConnection = builder.Configuration.GetConnectionString("mysqlDbConexao");
+var versaoServer = ServerVersion.AutoDetect(mySqlConnection);
 
-//Registrando o context passando as intruções do banco passando a versão do banco
- var versaoServer = ServerVersion.AutoDetect(mySqlConnection);
-
+//incluimos um referência ao contexto e o provedor do banco de dados ultilizando a string de conexão criada appSenttings.json
 builder.Services.AddDbContextPool<AppDbContext>(options => options.UseMySql(mySqlConnection, versaoServer));
 
+
+
+
 #region mapper
-
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 #endregion
 
 #region servicos
@@ -106,8 +107,6 @@ builder.Services.AddSwaggerGen(c =>
                 });
 });
 
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -116,6 +115,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//apartir da onde vão ser feitas as requisições
+app.UseCors(options =>
+{
+    options.WithOrigins("http://localhost:3000");
+    options.AllowAnyMethod();
+    options.AllowAnyHeader();
+});
 
 app.UseHttpsRedirection();
 
