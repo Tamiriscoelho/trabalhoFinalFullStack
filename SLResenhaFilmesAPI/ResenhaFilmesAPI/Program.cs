@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -76,6 +77,18 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+//Depois do AppDbContext
+//O método AddIdentity adiciona a configuração padrão para os tipos IdentityUser e para o IdentityRole que representa os perfis do usuàrio
+//IdentityUser é uma classe que vai conter as propriedades do usuário que vai se Autenticar 
+//AddEntityFrameworkStores usado para armazenar e recuperar dados do usuário e dos perfis do usuário que foram registrados. EntityFrameworkCore no MySql necessario definir o contexto
+//recurso usado para gerar token nas operações de conta do usuário como recuperação de senha ou
+//alteração do email que utilizado na autenticação de 2 fatores
+//Vá par IAutheticate.cs
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

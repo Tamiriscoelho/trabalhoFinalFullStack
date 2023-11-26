@@ -1,17 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ResenhaFilmesAPI.Models;
-using System.IO;
-using System.Net.Mail;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace ResenhaFilmesAPI.Context
 {
     //classe resposavel por fazer a ponte entre as entidades criadas na models
-    // com o banco de dados MySql para isso ela tem que herdar da classe DbContext pois e dela que vem os recurso para fazer esse mapeamento
-    public class AppDbContext : DbContext
+    // com o banco de dados MySql para isso ela tem que herdar da classe.
 
+    //IdentityUser é um tipo que vai representar o usuário.
+    //Representa um usuário do Identity contendo varias propriedades padrão como PasswordHas.
+    //para usar esse recurso vá para pasta Program.cs para habilitar o Identity
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
 
-        // representa as tabelas  das classes criadas na Models
+        // representa as tabelas das classes criadas na Models
         public DbSet<UsuarioModel> Usuarios { get; set; }
 
         public DbSet<FilmeModel> Filmes { get; set; }
