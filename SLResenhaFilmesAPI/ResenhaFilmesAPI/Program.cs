@@ -69,7 +69,9 @@ builder.Services.AddScoped<IResenhaRepository, ResenhaRepository>();
 builder.Services.AddScoped<IResenhaService, ResenhaService>();
 builder.Services.AddScoped<IFilmeService, FilmeService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
+//informa a classe e informa a implemetação toda vez que referênciar a interface o container vai me dar uma instâcia da implemetação.
+//registrado o serviço criado para Autenticar o usuário
+builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
 
 
 #endregion

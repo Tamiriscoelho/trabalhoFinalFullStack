@@ -64,6 +64,30 @@ namespace ResenhaFilmesAPI.Context
             modelBuilder.Entity<FilmeModel>().Property(x => x.Titulo);
             modelBuilder.Entity<FilmeModel>().Property(x => x.Genero);
             modelBuilder.Entity<FilmeModel>().Property(x => x.Ano);
+
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<FilmeModel>().HasData( 
+                new FilmeModel
+                {
+                   FilmeModelId = 1,
+                   Titulo = "A mão que balança o berço",
+                   Genero = "Terror",
+                   Ano = "1999"
+                },
+                new FilmeModel
+                {
+                    FilmeModelId = 1,
+                    Titulo = "Ursinho pool",
+                    Genero = "Desenho",
+                    Ano = "1990"
+
+                }
+                
+                );
+
+
+            
         }
     }
 }

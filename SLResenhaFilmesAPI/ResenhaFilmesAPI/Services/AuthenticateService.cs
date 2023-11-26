@@ -65,7 +65,7 @@ namespace ResenhaFilmesAPI.Services
         }
 
         //7° Passo implementar o Logout usando o método SingnOutAsync
-        //vá para program.cs registar esse serviço
+        //vá para program.cs registar esse serviço builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
         public async Task Logout()
         {
             await _signInManager.SignOutAsync();
